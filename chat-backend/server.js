@@ -35,11 +35,13 @@ const storage = multer.diskStorage({
   }
 });
 const upload = multer({ storage });
+const BASE_URL = process.env.BASE_URL || 'https://decentralized-chat.onrender.com';
+
 
 // Upload endpoint
 app.post('/upload', upload.single('file'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
-  const fileUrl = `https://decentralized-chat.onrender.com/${req.file.filename}`;
+  const fileUrl = `${BASE_URL}/${req.file.filename}`;  // Use BASE_URL here
   res.json({ url: fileUrl });
 });
 
