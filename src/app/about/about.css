@@ -1,0 +1,94 @@
+.about-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background: #f7f8fc;
+  min-height: 100vh;
+}
+
+.about-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.about-header .logo {
+  height: 80px;
+  margin-bottom: 1rem;
+}
+
+.about-header h1 {
+  font-size: 2.2rem;
+  background: linear-gradient(90deg, #5b8dfc, #00c6ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.about-header .subtitle {
+  font-size: 1rem;
+  color: #666;
+  margin-top: -5px;
+}
+
+.about-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  max-width: 800px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.about-card h2 {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+  color: #333;
+  border-left: 4px solid #5b8dfc;
+  padding-left: 10px;
+}
+
+.about-card p {
+  color: #444;
+  line-height: 1.6;
+}
+
+.about-card ul {
+  margin-top: 1rem;
+  padding-left: 20px;
+}
+
+.about-card ul li {
+  margin: 8px 0;
+  color: #555;
+}
+
+.about-card ul li strong {
+  color: #000;
+}
+
+@media (max-width: 600px) {
+  .about-card {
+    padding: 1.2rem;
+  }
+
+  .about-header .logo {
+    height: 60px;
+  }
+
+  .about-header h1 {
+    font-size: 1.8rem;
+  }
+}
+
+
+.about-footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+}
+.about-footer a {
+  color: #007bff;
+  text-decoration: none;
+}
+.about-footer a:hover {
+  text-decoration: underline;
+}

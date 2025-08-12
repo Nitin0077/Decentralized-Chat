@@ -1,0 +1,126 @@
+<!-- Username & Group Join Prompt -->
+<div *ngIf="!usernameSet && chatMode === 'group'" class="username-prompt">
+  <h2>Join a Private Group</h2>
+  <input [(ngModel)]="username" placeholder="Your name" />
+  <input [(ngModel)]="groupId" placeholder="Group ID (or generate one)" />
+  <button (click)="generateGroupId()">Generate Group ID</button>
+  <button (click)="setUsername()">Join Group</button>
+</div>
+
+<!-- Wait screen for Random Mode -->
+<div *ngIf="!usernameSet && chatMode === 'random'" class="username-prompt">
+  <h2>Connecting to a random stranger...</h2>
+  <p *ngIf="isWaiting">Please wait while we find someone for you...</p>
+</div>
+<!-- Main Chat UI -->
+<div *ngIf="usernameSet" class="chat-container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Group ID Display -->
+    <h3 *ngIf="chatMode === 'group'" class="group-id">
+      Group ID: {{ groupId }}
+    </h3>
+
+    <!-- Online Users -->
+    <h4 class="section-title">Online Users</h4>
+    <ul class="user-list">
+      <li *ngFor="let user of onlineUsers" (click)="selectUser(user)"
+        [class.active]="selectedUser?.username === user.username">
+
+        <img [src]="user.avatar" class="avatar" [class.voice-calling]="inCallWith.has(user.username)" />
+
+        <div class="user-info">
+          <span class="username">{{ user.username }}</span>
+          <small class="last-msg">{{ getLastMessage(user) }}</small>
+        </div>
+
+        <!-- <span class="status-dot online"></span> -->
+      </li>
+    </ul>
+  </div>
+
+
+  <!-- Chat Area -->
+  <div class="chat-box" *ngIf="selectedUser">
+    <div class="chat-header">
+      <h3>Chat with {{ selectedUser.username }}</h3>
+
+      <p *ngIf="typingText" class="typing-indicator">{{ typingText }}</p>
+
+      @if(callBtn===true){
+      <button class="call-btn" (click)="startVoiceCall()">
+        <span>🎤</span> Voice Call
+      </button>
+      }
+      
+      <button class="call-btn end-call-btn" *ngIf="inCallWith.has(selectedUser?.username)" (click)="endVoiceCall()">
+        <span>🔴</span> End Call
+      </button>
+
+    </div>
+
+    <div class="messages" #scrollMe>
+      <ng-container *ngFor="let m of chatLog[selectedUser.username]">
+
+        <!-- System Message (e.g., Call ended) -->
+        <div *ngIf="m.type === 'system'" class="system-message">
+          {{ m.msg }}
+        </div>
+
+        <!-- Sent -->
+        <div *ngIf="m.from === username && m.type !== 'system'" class="message sent">
+          <div class="bubble">
+            <span *ngIf="!m.fileUrl">{{ m.msg }}</span>
+            <a *ngIf="m.fileUrl && !isImage(m.fileName)" [href]="m.fileUrl" target="_blank">{{ m.fileName }}</a>
+            <img *ngIf="m.fileUrl && isImage(m.fileName)" [src]="m.fileUrl" (click)="openLightbox(m.fileUrl)"
+              class="chat-image" />
+            <div class="meta">
+              <small>{{ m.timestamp | date:'shortTime' }}</small>
+              <span>{{ m.seen ? '✔️ Seen' : '⏳ Sent' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Received -->
+        <div *ngIf="m.from !== username && m.type !== 'system'" class="message received">
+          <div class="bubble">
+            <span *ngIf="!m.fileUrl">{{ m.msg }}</span>
+            <a *ngIf="m.fileUrl && !isImage(m.fileName)" [href]="m.fileUrl" target="_blank">{{ m.fileName }}</a>
+            <img *ngIf="m.fileUrl && isImage(m.fileName)" [src]="m.fileUrl" (click)="openLightbox(m.fileUrl)"
+              class="chat-image" />
+            <div class="meta">
+              <small>{{ m.timestamp | date:'shortTime' }}</small>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- Message Input -->
+    <div class="input-area">
+      <!-- Message Input -->
+      <input class="chat-input" [(ngModel)]="message" placeholder="Type a message..." (input)="onTyping()"
+        (keyup.enter)="sendMessage()" />
+
+      <!-- Emoji Picker -->
+      <div class="emoji-buttons">
+        <button (click)="addEmoji('😊')" title="Smile">😊</button>
+        <button (click)="addEmoji('😂')" title="Laugh">😂</button>
+        <button (click)="addEmoji('❤️')" title="Love">❤️</button>
+      </div>
+
+      <!-- File Upload -->
+      <input type="file" (change)="onFileSelected($event)" hidden #fileInput />
+      <button class="file-btn" (click)="triggerFileUpload()" title="Attach file">📎</button>
+
+      <!-- Send -->
+      <button class="send-btn" (click)="sendMessage()" title="Send message">➤</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Lightbox Overlay -->
+<div class="lightbox" *ngIf="lightboxImage" (click)="closeLightbox()">
+  <img [src]="lightboxImage" />
+</div>
