@@ -39,7 +39,7 @@ const upload = multer({ storage });
 // Upload endpoint
 app.post('/upload', upload.single('file'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
-  const fileUrl = `http://localhost:3000/${req.file.filename}`;
+  const fileUrl = `https://decentralized-chat.onrender.com/${req.file.filename}`;
   res.json({ url: fileUrl });
 });
 

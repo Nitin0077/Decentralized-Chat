@@ -62,7 +62,7 @@ export class Chat implements OnInit {
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.socket = io('http://localhost:3000');
+    this.socket = io('https://decentralized-chat.onrender.com');
 
     if (Notification.permission !== 'granted') {
       Notification.requestPermission();
@@ -296,7 +296,7 @@ export class Chat implements OnInit {
     const formData = new FormData();
     formData.append('file', file);
 
-    fetch('http://localhost:3000/upload', {
+    fetch('https://decentralized-chat.onrender.com/upload', {
       method: 'POST',
       body: formData
     })
