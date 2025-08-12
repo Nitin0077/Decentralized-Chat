@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class ChatService {
   private socket: Socket;
-  private serverUrl = 'http://localhost:3000'; // Change this to ngrok URL when going online
+  private serverUrl = 'https://decentralized-chat.onrender.com'; // Change this to ngrok URL when going online
 
   constructor() {
     this.socket = io(this.serverUrl);
