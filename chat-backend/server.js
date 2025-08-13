@@ -40,7 +40,7 @@ const BASE_URL = process.env.BASE_URL || 'https://decentralized-chat.onrender.co
 // Upload endpoint
 app.post('/upload', upload.single('file'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
-  const fileUrl = `${BASE_URL}${req.file.filename}`;  // Use BASE_URL here
+  const fileUrl = `${BASE_URL}/${req.file.filename}`;  // Use BASE_URL here
   res.json({ url: fileUrl });
 });
 
