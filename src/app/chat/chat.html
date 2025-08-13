@@ -47,11 +47,11 @@
 
       <p *ngIf="typingText" class="typing-indicator">{{ typingText }}</p>
 
-      @if(callBtn===true){
+     
       <button class="call-btn" (click)="startVoiceCall()">
         <span>🎤</span> Voice Call
       </button>
-      }
+      
       
       <button class="call-btn end-call-btn" *ngIf="inCallWith.has(selectedUser?.username)" (click)="endVoiceCall()">
         <span>🔴</span> End Call

@@ -28,7 +28,7 @@ export class Chat implements OnInit {
   isWaiting: boolean = false;
 
 
-    callBtn:boolean=true
+    
   @ViewChild('fileInput') fileInput!: ElementRef;
 
   // WebRTC
@@ -381,7 +381,7 @@ export class Chat implements OnInit {
       from: this.username,
       offer
     });
-    this.callBtn = false; // Enable call button after starting the call
+    
   }
 
 
@@ -448,7 +448,7 @@ export class Chat implements OnInit {
     });
   }
 
-  this.callBtn!= this.callBtn; // Disable call button after ending the call
+  
 }
 
 
